@@ -19,8 +19,19 @@ When we pass a value to a function, Go always creates a copy of that value and p
 
 
 ## Usage of Pointer
-turn address into value with *address
-turn value into address with &value
+> turn address into value with *address  
+> turn value into address with &value
 
 ## Usage of Go Mod
-go mod init <project_name>
+> go mod init **<project_name>**
+
+## Usage of Map
+
+> Go Maps are like Objects in JavaScript. Both keys and values staticly typed so all keys must be exact type and all values must be exact type.
+
+| Map  | Struct |
+| -------- | ------- |
+| All keys must be the same type  | Values can be of different type    |
+| All values must be the same type    |  Keys don't support indexing  |
+| Keys are indexed - we can iterate over them    | You need to know all the different fields at compile time   |
+| Use to represent a collection of related properties    | Use to represent a "thing" with a lot of different properties   |
