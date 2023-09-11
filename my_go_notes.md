@@ -38,7 +38,13 @@ When we pass a value to a function, Go always creates a copy of that value and p
 
 ## Usage of Interface
 
-> In the Go programming language, interfaces are used to define a set of methods that a type must implement. Interfaces enable you to write code that is more flexible, reusable, and testable by abstracting away the specific implementation details of types. Here are some common use cases for interfaces in Go:
+> In the Go programming language, interfaces are used to define a set of methods that a type must implement. Interfaces enable you to write code that is more flexible, reusable, and testable by abstracting away the specific implementation details of types. 
+
+* Interfaces are not generic types
+* Interfaces are implicit
+* Interfaces are a contract to help us manage types
+
+### Here are some common use cases for interfaces in Go:
 
 1. Polymorphism: Interfaces allow you to write functions and methods that can work with different types as long as those types satisfy the interface. This enables you to achieve polymorphism in Go, where you can treat different types that implement the same interface in a uniform way.
 
