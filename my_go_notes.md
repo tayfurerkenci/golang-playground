@@ -55,3 +55,114 @@ When we pass a value to a function, Go always creates a copy of that value and p
 4. Testing: Interfaces make it easier to write unit tests by allowing you to create mock implementations of dependencies. This is particularly useful when you want to isolate the code you're testing from external systems, such as databases or web services.
 
 5. Plugin Systems: Interfaces can be used to create plugin systems where external code can be dynamically loaded and used, as long as it adheres to the defined interface
+
+> Here's a simple example of how an interface is defined and used in Go:
+
+```go
+package main
+
+import "fmt"
+
+// Define an interface named Writer with a single method, Write.
+type Writer interface {
+    Write([]byte) (int, error)
+}
+
+// Create a concrete type, FileWriter, that implements the Writer interface.
+type FileWriter struct {
+    FileName string
+}
+
+func (fw FileWriter) Write(data []byte) (int, error) {
+    // Implement the Write method for FileWriter.
+    // Write data to the specified file.
+    // Return the number of bytes written and any errors encountered.
+    // ...
+    return len(data), nil
+}
+
+func main() {
+    // Create a FileWriter instance and use it through the Writer interface.
+    var w Writer
+    w = FileWriter{FileName: "example.txt"}
+    w.Write([]byte("Hello, World!\n"))
+
+    // You can also create other types that implement the Writer interface
+    // and use them interchangeably.
+}
+```
+
+
+## Usage of Channels and Go Routines
+
+> In the Go programming language, Go Routines and Channels are powerful features for concurrent and parallel programming. They make it easy to write efficient, concurrent programs that can perform tasks concurrently and communicate safely between goroutines. Here's an overview of their usage:
+
+### Go Routines
+
+* Lightweight Concurrency: Goroutines are lightweight threads of execution that allow you to run functions concurrently without the overhead of creating a full OS thread for each one. You can spawn thousands or even millions of goroutines in a single Go program.
+* Concurrency: They enable concurrent execution of tasks, making it easier to write efficient, non-blocking code. You can use goroutines for tasks such as handling concurrent HTTP requests, processing data in parallel, or running background tasks concurrently.
+* Syntax: Goroutines are started using the go keyword followed by a function call. For example: go myFunction().
+* Example:
+```go 
+func main() {
+    go sayHello()
+    go sayWorld()
+    time.Sleep(time.Second)
+}
+
+func sayHello() {
+    fmt.Println("Hello")
+}
+
+func sayWorld() {
+    fmt.Println("World")
+}
+```
+
+> Biggest TAKEAWAY with Go Routine that we never, ever try to access the same variable from a different child routine wherever possible
+
+### Channels
+* Synchronization and Communication: Channels are used for communication and synchronization between goroutines. They provide a safe way for goroutines to send and receive data and signals.
+* Blocking: Sending data to a channel blocks until another goroutine is ready to receive it, and vice versa. This blocking behavior helps coordinate the timing of tasks and avoids race conditions.
+* Unidirectional and Buffered Channels: You can create unidirectional channels (send-only or receive-only), and you can also create buffered channels to control the capacity of data that can be sent without blocking.
+* Example:
+```go
+func main() {
+    ch := make(chan string)
+    go sendData(ch)
+    go receiveData(ch)
+    time.Sleep(time.Second)
+}
+
+func sendData(ch chan string) {
+    ch <- "Hello"
+    ch <- "World"
+    close(ch)
+}
+
+func receiveData(ch chan string) {
+    for msg := range ch {
+        fmt.Println(msg)
+    }
+}
+```
+
+### Select Statement
+* The select statement is used to choose between multiple communication operations on channels. It allows you to handle multiple channels concurrently and non-blocking.
+* It's often used for handling timeout scenarios, graceful shutdown, and multiplexing multiple channels.
+* Example:
+```go
+select {
+case msg1 := <-ch1:
+    fmt.Println("Received", msg1)
+case ch2 <- "Hello":
+    fmt.Println("Sent a message to ch2")
+case <-time.After(time.Second):
+    fmt.Println("Timed out")
+}
+```
+> In summary, goroutines and channels are fundamental to Go's concurrency model. They enable you to write concurrent programs that are both efficient and easy to reason about. Go Routines allow you to execute functions concurrently, and channels provide a safe way for go routines to communicate and synchronize their actions. This combination makes Go well-suited for tasks involving parallelism, concurrency, and distributed systems.
+
+
+
+
